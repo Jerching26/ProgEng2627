@@ -3,8 +3,20 @@
 
 double mypow(double base, int exp) {
     double result;
-    result = std::pow(base, exp);
-    return result;
+    result = 1;
+
+    if (exp > 0) {
+        for (int n = 0; n < exp; n++) {
+            result = result * base;
+            }
+    }
+    else {
+        for (int n = 0; n > exp; n--) {
+            result = result * (base);
+        }
+        result = 1 / result;
+    }
+return result;
 }
 
 int main(){

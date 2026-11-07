@@ -9,8 +9,6 @@ int main() {
     if (infile.is_open()) {
         int tmp;
 
-        int tmp;
-
         infile >> tmp;
 
         std::cout << tmp << std::endl;
@@ -22,7 +20,7 @@ int main() {
         infile.close();
 
     }
-    else (
+    else {
         std::cout << "error opening file" << std::endl;
-    )
+    }
 }

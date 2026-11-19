@@ -1,0 +1,7 @@
+vertigo
+end
+play
+duck
+father
+child
+door

@@ -40,7 +40,7 @@ int twod_to_oned(int row, int col, int rowlen){     //row starts from 0, so twod
 int mfind(int n, const std::vector<int>& v){
     for (int a = 0; a < v.size(); a++) {
         if (n == v[a]) {
-            return n;
+            return a;
         }
     }
     return -1;
@@ -58,7 +58,7 @@ int mfind(int n, const std::vector<int>& v){
 // note that check_sequence must (meaningfully) use function mfind
 bool check_sequence(const std::vector<int>& v){
     for (int b = 1; b <= v.size(); b++) {
-        if (mfind(b, v) != 1) {
+        if (mfind(b, v) == -1) {
             return false;
         }
     }
@@ -78,8 +78,8 @@ bool check_sequence(const std::vector<int>& v){
 void get_row(int r, const std::vector<int>& in, std::vector<int>& out){
     int n = sqrt(in.size());      //suduko square length
 
-    for (int i = r; i < (r + n); i++) {
-        out.push_back(twod_to_oned(i, 1, n));
+    for (int i = 0; i <  n; i++) {
+        out.push_back(in[twod_to_oned(r, i, n)]);
     }
 }
 
@@ -91,8 +91,8 @@ void get_row(int r, const std::vector<int>& in, std::vector<int>& out){
 void get_col(int c, const std::vector<int>& in, std::vector<int>& out){
     int n = sqrt(in.size());      //suduko square length
 
-    for (int i = c; i < (c + n); i++) {
-        out.push_back(twod_to_oned(1, i, n));
+    for (int i = 0; i < n; i++) {
+        out.push_back(in[twod_to_oned(i, c, n)]);
     }
 }
 
@@ -110,9 +110,12 @@ void get_subsq(int subs, const std::vector<int>& in, std::vector<int>& out){
     int sublength = sqrt(sqrt(in.size()));      //fist sqrt gives side length, second give subsquare length = 2
     int length = sqrt(in.size());
 
-    for (int a = ((subs % sublength) * sublength); a < (a + sublength); a++) {  //for col index, returns 0 for subs 0/2, returns 2 for subs 1/3, should scale up
-        for (int b = ((subs/sublength) * sublength); b < (b + sublength); b++) {   //row index 2 for subs 2/3, index 0 for subs 0/1     
-                out.push_back(twod_to_oned(b, a, length));
+    int b = ((subs/sublength) * sublength);
+    int a = ((subs % sublength) * sublength);
+
+    for (int i = b; i < (b + sublength); i++) {  //row index 2 for subs 2/3, index 0 for subs 0/1
+        for (int z = a; z < (a + sublength); z++) {   //for col index, returns 0 for subs 0/2, returns 2 for subs 1/3, should scale up
+                out.push_back(in[twod_to_oned(i, z, length)]);
         }                                                        
     }  
 }
